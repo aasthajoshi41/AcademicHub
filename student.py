@@ -214,37 +214,71 @@ class StudentClass:
         self.txt_address.insert(END, row[11])
         
 
-    def add (self):
-        con=sqlite3.connect(database="rms.db")
-        cur=con.cursor()
+    def add(self):
+        if (
+            self.var_roll.get() == "" or
+            self.var_name.get() == "" or
+            self.var_email.get() == "" or
+            self.var_gender.get() == "Select" or
+            self.var_dob.get() == "" or
+            self.var_contact.get() == "" or
+            self.var_a_date.get() == "" or
+            self.var_course.get() == "Select" or
+            self.var_state.get() == "" or
+            self.var_city.get() == "" or
+            self.var_pin.get() == "" or
+            self.txt_address.get("1.0", END).strip() == ""
+        ):
+            messagebox.showerror("Error", "All fields are required", parent=self.root)
+            return
+
+        if not self.var_roll.get().isdigit():
+            messagebox.showerror("Error", "Roll No. must be numeric", parent=self.root)
+            return
+
+        if not self.var_contact.get().isdigit() or len(self.var_contact.get()) != 10:
+            messagebox.showerror("Error", "Enter a valid 10-digit contact number", parent=self.root)
+            return
+
+        if not self.var_pin.get().isdigit() or len(self.var_pin.get()) != 6:
+            messagebox.showerror("Error", "Enter a valid 6-digit pincode", parent=self.root)
+            return
+
+        if "@" not in self.var_email.get() or "." not in self.var_email.get():
+            messagebox.showerror("Error", "Enter a valid email address", parent=self.root)
+            return
+
         try:
-            if self.var_roll.get()=="":
-                messagebox.showerror("Error","Roll Number should be required",parent=self.root)
+            con = sqlite3.connect(database="rms.db")
+            cur = con.cursor()
+            cur.execute("SELECT * FROM student WHERE roll=?", (self.var_roll.get(),))
+            row = cur.fetchone()
+            if row is not None:
+                messagebox.showerror("Error", "Roll No. already exists", parent=self.root)
             else:
-                cur.execute("select * from student where roll=?",(self.var_roll.get(),))
-                row=cur.fetchone()
-                if row!=None:
-                    messagebox.showerror("Error","Roll Number already present",parent=self.root)
-                else:
-                    cur.execute("insert into student(roll,name,email,gender,dob,contact,admission,course,state,city,pin,address) values(?,?,?,?,?,?,?,?,?,?,?,?)",(
-                        self.var_roll.get(),
-                        self.var_name.get(),
-                        self.var_email.get(),
-                        self.var_gender.get(),
-                        self.var_dob.get(),
-                        self.var_contact.get(),
-                        self.var_a_date.get(),
-                        self.var_course.get(),
-                        self.var_state.get(),
-                        self.var_city.get(),
-                        self.var_pin.get(),
-                        self.txt_address.get("1.0",END)
-                    ))
-                    con.commit()
-                    messagebox.showinfo("success","Student Added Successfully",parent=self.root)
-                    self.show()
+                cur.execute("""
+                    INSERT INTO student (roll, name, email, gender, dob, contact, admission, course, state, city, pin, address)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                """, (
+                    self.var_roll.get(),
+                    self.var_name.get(),
+                    self.var_email.get(),
+                    self.var_gender.get(),
+                    self.var_dob.get(),
+                    self.var_contact.get(),
+                    self.var_a_date.get(),
+                    self.var_course.get(),
+                    self.var_state.get(),
+                    self.var_city.get(),
+                    self.var_pin.get(),
+                    self.txt_address.get("1.0", END).strip()
+                ))
+                con.commit()
+                messagebox.showinfo("Success", "Student record added successfully", parent=self.root)
+                self.show()
         except Exception as ex:
-            messagebox.showerror("Error",f"Error due to {str(ex)}")
+            messagebox.showerror("Error", f"Error due to {str(ex)}", parent=self.root)
+
 
 
     def update (self):
