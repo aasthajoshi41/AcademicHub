@@ -50,27 +50,31 @@ class ReportClass:
         btn_delete=Button(self.root, text="Delete", font=("times new roman", 15, "bold"),bg="red", fg="white", cursor="hand2", command=self.delete).place(x=500, y=350, width=150, height=35)
 
 
-    def search (self):
-            con=sqlite3.connect(database="rms.db")
-            cur=con.cursor()
-            try:
-                if self.var_search.get()=="":
-                     messagebox.showerror("Error","Roll No. Should Be Required", parent=self.root)
+    def search(self):
+        con = sqlite3.connect(database="rms.db")
+        cur = con.cursor()
+        try:
+            if self.var_search.get() == "":
+                messagebox.showerror("Error", "Roll No. Should Be Required", parent=self.root)
+            else:
+                cur.execute("SELECT rid, roll, name, course, marks_ob, full_marks, per FROM result WHERE roll = ?", (self.var_search.get(),))
+                row = cur.fetchone()
+                if row is not None:
+                    self.var_id = row[0]         # rid
+                    self.roll.config(text=row[1])
+                    self.name.config(text=row[2])
+                    self.course.config(text=row[3])
+                    self.marks.config(text=row[4])
+                    self.full.config(text=row[5])
+                    self.per.config(text=row[6])
+
                 else:
-                    cur.execute("select * from result where roll=? ",(self.var_search.get(),))
-                    row=cur.fetchone()
-                    if row != None:
-                        self.var_id=row[0]
-                        self.roll.config(text=row[1])
-                        self.name.config(text=row[2])
-                        self.course.config(text=row[3])
-                        self.marks.config(text=row[4])
-                        self.full.config(text=row[5])
-                        self.per.config(text=row[6])
-                    else:
-                        messagebox.showerror("Error","No record found", parent=self.root)
-            except Exception as ex:
-                messagebox.showerror("Error",f"Error due to {str(ex)}")
+                    messagebox.showerror("Error", "No record found", parent=self.root)
+        except Exception as ex:
+            messagebox.showerror("Error", f"Error due to {str(ex)}", parent=self.root)
+        finally:
+            con.close()
+
 
     def clear (self):
         self.var_id=""
