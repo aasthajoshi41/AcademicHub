@@ -9,13 +9,18 @@ class Register:
         self.root.title("Registration Window")
         self.root.geometry("1910x1000+0+0")
 
-        # === Background ===
-        self.bg_img = Image.open("IMAGES/bgfull.png")
-        self.bg_img = self.bg_img.resize((1910, 1000), Image.Resampling.LANCZOS)
-        self.bg_img = self.bg_img.filter(ImageFilter.GaussianBlur(radius=5))
-        self.bg = ImageTk.PhotoImage(self.bg_img)
-        bg_label = Label(self.root, image=self.bg)
-        bg_label.place(x=0, y=0, relwidth=1, relheight=1)
+        self.root.configure(bg="#B0C4DE") 
+
+
+        side_img = Image.open("C:/Users/sit421/Desktop/STUDENT RESULT MNANAGEMENT/IMAGES/lgg.webp")
+        side_img = side_img.resize((630, 630), Image.Resampling.LANCZOS)
+        self.side_photo = ImageTk.PhotoImage(side_img)
+
+        side_label = Label(self.root, image=self.side_photo, bg="#FFF5E7")
+        side_label.place(x=275, y=180, width=630, height=630)
+
+
+
 
         # === Variables ===
         self.var_fname = StringVar()
@@ -29,54 +34,55 @@ class Register:
         self.var_chk = IntVar()
 
         # === Registration Frame ===
-        frame1 = Frame(self.root, bg="white")
-        frame1.place(x=550, y=180, width=800, height=650)
+        frame1 = Frame(self.root, bg="#FFFBF6")
+        frame1.place(x=905, y=180, width=750, height=630)
 
-        title = Label(frame1, text="REGISTER HERE", font=("times new roman", 25, "bold"),
-                      bg="white", fg="green")
-        title.place(relx=0.5, y=40, anchor="center")
+        title = Label(frame1, text="REGISTER HERE", font=("Microsoft JhengHei", 23, "bold"),
+                      bg="#FFFBF6", fg="#2E2E2E")
+        title.place(relx=0.49, y=55, anchor="center")
 
         # ===== Form Fields (Slightly Lowered) =====
-        Label(frame1, text="First Name", font=("times new roman", 15, "bold"), bg="white").place(x=50, y=100)
-        Entry(frame1, textvariable=self.var_fname, font=("times new roman", 15), bg="lightgray").place(x=50, y=130, width=280)
+        Label(frame1, text="First Name", font=("Georgia", 13, "bold"), bg="white", fg="#444444").place(x=60, y=115)
+        Entry(frame1, textvariable=self.var_fname, font=("Georgia", 15), bg="lightgray").place(x=60, y=155, width=280)
 
-        Label(frame1, text="Last Name", font=("times new roman", 15, "bold"), bg="white").place(x=420, y=100)
-        Entry(frame1, textvariable=self.var_lname, font=("times new roman", 15), bg="lightgray").place(x=420, y=130, width=280)
+        Label(frame1, text="Last Name", font=("Georgia", 13, "bold"), bg="white", fg="#444444").place(x=415, y=115)
+        Entry(frame1, textvariable=self.var_lname, font=("Georgia", 15), bg="lightgray").place(x=415, y=155, width=280)
 
-        Label(frame1, text="Contact No.", font=("times new roman", 15, "bold"), bg="white").place(x=50, y=170)
-        Entry(frame1, textvariable=self.var_contact, font=("times new roman", 15), bg="lightgray").place(x=50, y=200, width=280)
+        Label(frame1, text="Contact No.", font=("Georgia", 13, "bold"), bg="white", fg="#444444").place(x=60, y=200)
+        Entry(frame1, textvariable=self.var_contact, font=("Georgia", 15), bg="lightgray").place(x=60, y=235, width=280)
 
-        Label(frame1, text="Email", font=("times new roman", 15, "bold"), bg="white").place(x=420, y=170)
-        Entry(frame1, textvariable=self.var_email, font=("times new roman", 15), bg="lightgray").place(x=420, y=200, width=280)
+        Label(frame1, text="Email", font=("Georgia", 13, "bold"), bg="white", fg="#444444").place(x=415, y=200)
+        Entry(frame1, textvariable=self.var_email, font=("Georgia", 15), bg="lightgray").place(x=415, y=235, width=280)
 
-        Label(frame1, text="Security Question", font=("times new roman", 15, "bold"), bg="white").place(x=50, y=240)
-        cmb_quest = ttk.Combobox(frame1, textvariable=self.var_quest, font=("times new roman", 13), state='readonly', justify=CENTER)
+        Label(frame1, text="Security Question", font=("Georgia", 13, "bold"), bg="white", fg="#444444").place(x=60, y=280)
+        cmb_quest = ttk.Combobox(frame1, textvariable=self.var_quest, font=("Georgia", 15), state='readonly', justify=CENTER)
         cmb_quest['values'] = ("Select", "Your First Pet Name", "Your Birth Place", "Your Best Friend Name", "Your Favourite Colour")
-        cmb_quest.place(x=50, y=270, width=280)
+        cmb_quest.place(x=60, y=315, width=280)
         cmb_quest.current(0)
 
-        Label(frame1, text="Answer", font=("times new roman", 15, "bold"), bg="white").place(x=420, y=240)
-        Entry(frame1, textvariable=self.var_answer, font=("times new roman", 15), bg="lightgray").place(x=420, y=270, width=280)
+        Label(frame1, text="Answer", font=("Georgia", 13, "bold"), 
+        bg="white", fg="#444444").place(x=415, y=280)
+        Entry(frame1, textvariable=self.var_answer, font=("Georgia", 15), bg="lightgray").place(x=415, y=315, width=280)
 
-        Label(frame1, text="Password", font=("times new roman", 15, "bold"), bg="white").place(x=50, y=310)
-        Entry(frame1, textvariable=self.var_pass, font=("times new roman", 15), bg="lightgray", show="*").place(x=50, y=340, width=280)
+        Label(frame1, text="Password", font=("Georgia", 13, "bold"), bg="white", fg="#444444").place(x=60, y=360)
+        Entry(frame1, textvariable=self.var_pass, font=("Georgia", 15), bg="lightgray", show="*").place(x=60, y=395, width=280)
 
-        Label(frame1, text="Confirm Password", font=("times new roman", 15, "bold"), bg="white").place(x=420, y=310)
-        Entry(frame1, textvariable=self.var_cpass, font=("times new roman", 15), bg="lightgray", show="*").place(x=420, y=340, width=280)
+        Label(frame1, text="Confirm Password", font=("Georgia", 13, "bold"), bg="white", fg="#444444").place(x=415, y=360)
+        Entry(frame1, textvariable=self.var_cpass, font=("Georgia", 15), bg="lightgray", show="*").place(x=415, y=395, width=280)
 
         Checkbutton(frame1, text="I agree to the Terms & Conditions", variable=self.var_chk,
-                    font=("times new roman", 13), bg="white", onvalue=1, offvalue=0).place(x=50, y=390)
+                    font=("Georgia", 13), bg="white", onvalue=1, offvalue=0).place(x=60, y=440)
 
-        self.btn_reg = Button(frame1, text="Register Now", font=("times new roman", 15, "bold"),
+        self.btn_reg = Button(frame1, text="Register Now", font=("Georgia", 13, "bold"),
                               bg="green", fg="white", cursor="hand2", command=self.register_data)
-        self.btn_reg.place(x=50, y=450, width=250, height=40)
+        self.btn_reg.place(x=80, y=520, width=250, height=40)
 
         self.btn_reg.bind("<Enter>", lambda e: self.btn_reg.config(bg="#228B22"))
         self.btn_reg.bind("<Leave>", lambda e: self.btn_reg.config(bg="green"))
 
-        btn_login = Button(frame1, text="Sign In", font=("times new roman", 15, "bold"),
+        btn_login = Button(frame1, text="Sign In", font=("Georgia", 13, "bold"),
                    bg="#0066CC", fg="white", cursor="hand2", command=self.redirect_to_login)
-        btn_login.place(x=420, y=450, width=250, height=40)
+        btn_login.place(x=430, y=520, width=250, height=40)
 
 
 
